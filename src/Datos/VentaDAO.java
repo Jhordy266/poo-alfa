@@ -118,6 +118,47 @@ public class VentaDAO implements IVenta<Venta, DetalleVenta> {
         return registros;
     }
 
+    public Venta obtenerVenta(int id) {
+        Venta registro = null;
+        try {
+            ps = CNX.conectar().prepareStatement(
+                    "SELECT v.Id_Venta, v.Id_Cliente, v.Id_Empleado, "
+                    + "COALESCE(cn.NOMBRE, cj.RAZON_SOCIAL) AS cliente, "
+                    + "e.NOMBRES AS empleado, v.Tipocomprobante, v.SERIE, v.NUMERO, v.FECHA, v.IMPUESTO, v.MONTO_TOTAL, "
+                    + "CASE WHEN v.ESTADO = 1 THEN 'Activo' ELSE 'Anulado' END AS estado "
+                    + "FROM VENTA v INNER JOIN CLIENTE c ON v.Id_Cliente = c.Id_Cliente "
+                    + "LEFT JOIN CLIENTE_NATURAL cn ON c.Id_CNatural = cn.Id_CNatural "
+                    + "LEFT JOIN CLIENTE_JURIDICO cj ON c.Id_CJuridico = cj.Id_CJuridico "
+                    + "INNER JOIN EMPLEADO e ON v.Id_Empleado = e.Id_Empleado WHERE v.Id_Venta = ?");
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                registro = new Venta(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getDate(9),
+                        rs.getDouble(10),
+                        rs.getDouble(11),
+                        rs.getString(12));
+            }
+            ps.close();
+            rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            ps = null;
+            rs = null;
+            CNX.desconectar();
+        }
+        return registro;
+    }
+
     @Override
     public boolean insertarVenta(Venta venta) {
         resp = false;

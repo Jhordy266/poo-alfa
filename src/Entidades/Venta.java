@@ -16,6 +16,8 @@ public class Venta {
     private int id;
     private int personaId;
     private int empleadoId;
+    private String empleadoNombre;
+
     private String personaNombre;/*Cliente*/
     private String tipoComprobante;/*Tipo de comprobante*/
     private String serieComprobante;
@@ -85,6 +87,17 @@ public class Venta {
         this.estado = estado;
     }
 
+
+    public Venta(int id, int personaId, int empleadoId, String personaNombre, String empleadoNombre, String tipoComprobante, String serieComprobante, String numComprobante, Date fecha, double impuesto, double total, String estado) {
+        this(id, personaId, empleadoId, personaNombre, tipoComprobante, serieComprobante, numComprobante, fecha, impuesto, total, estado);
+        this.empleadoNombre = empleadoNombre;
+    }
+
+    public Venta(int id, int personaId, int empleadoId, String personaNombre, String empleadoNombre, String tipoComprobante, String serieComprobante, String numComprobante, Date fecha, double impuesto, double total, String estado, List<DetalleVenta> detalles) {
+        this(id, personaId, empleadoId, personaNombre, empleadoNombre, tipoComprobante, serieComprobante, numComprobante, fecha, impuesto, total, estado);
+        this.detalles = detalles;
+    }
+
     public int getId() {
         return id;
     }
@@ -107,6 +120,14 @@ public class Venta {
 
     public void setEmpleadoId(int empleadoId) {
         this.empleadoId = empleadoId;
+    }
+
+    public String getEmpleadoNombre() {
+        return empleadoNombre;
+    }
+
+    public void setEmpleadoNombre(String empleadoNombre) {
+        this.empleadoNombre = empleadoNombre;
     }
 
     public String getPersonaNombre() {

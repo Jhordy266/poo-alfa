@@ -86,6 +86,10 @@ public class VentaNegocio {
         return this.dtm;
     }
 
+    public Venta obtenerVenta(int id) {
+        return this.DATOS.obtenerVenta(id);
+    }
+
     public String ultimoSerie(String tipoComprobante) {
         return this.DATOS.ultimoSerie(tipoComprobante);
     }

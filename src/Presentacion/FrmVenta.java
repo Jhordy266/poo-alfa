@@ -82,8 +82,10 @@ public class FrmVenta extends javax.swing.JInternalFrame {
         TxtTImpuesto.setText("0.00");
         this.crearDetalles();
         BtnGuardar.setVisible(true);
-        
+
         CbxTComprobante.setSelectedIndex(-1);
+        TxtIdEmpleado.setText("");
+        TxtNombreEmpleado.setText("");
     }
 
     private void crearDetalles() {
@@ -175,7 +177,7 @@ public class FrmVenta extends javax.swing.JInternalFrame {
                 Object valorCelda = modeloDetalles.getValueAt(i, 6);
                 if (valorCelda != null) {
                     try {
-                        String valor = valorCelda.toString().trim().replace(".", "").replace(",", ".");
+                        String valor = valorCelda.toString().trim().replace(",", ".");
                         double subtotalLinea = Double.parseDouble(valor);
                         total += subtotalLinea;
                     } catch (Exception e) {
@@ -629,28 +631,26 @@ public class FrmVenta extends javax.swing.JInternalFrame {
 
     private void BtnVventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVventaActionPerformed
         if (TblVentas.getSelectedRowCount() == 1) {
-            String id = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 0));
-            String idCliente = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 1));
-            String nombreCliente = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 2));
-            String tipoComprobante = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 3));
-            String serie = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 4));
-            String numero = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 5));
-            String impuesto = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 7));
+            int idVenta = Integer.parseInt(String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 0)));
+            Venta venta = CONTROL.obtenerVenta(idVenta);
 
-            TxtId.setText(idCliente);
-            TxtNombreC.setText(nombreCliente);
+            TxtId.setText(Integer.toString(venta.getPersonaId()));
+            TxtNombreC.setText(venta.getPersonaNombre());
+            TxtIdEmpleado.setText(Integer.toString(venta.getEmpleadoId()));
+            TxtNombreEmpleado.setText(venta.getEmpleadoNombre());
+
             // Selecciona el tipo de comprobante sin importar el uso de mayúsculas
             for (int i = 0; i < CbxTComprobante.getItemCount(); i++) {
                 String item = CbxTComprobante.getItemAt(i);
-                if (item.equalsIgnoreCase(tipoComprobante)) {
+                if (item.equalsIgnoreCase(venta.getTipoComprobante())) {
                     CbxTComprobante.setSelectedIndex(i);
                     break;
                 }
             }
-            TxtScomprobante.setText(serie);
-            TxtNComprobante.setText(numero);
-            TxtImpuesto.setText(impuesto);
-            this.modeloDetalles = CONTROL.listarDetalle(Integer.parseInt(id));
+            TxtScomprobante.setText(venta.getSerieComprobante());
+            TxtNComprobante.setText(venta.getNumComprobante());
+            TxtImpuesto.setText(Double.toString(venta.getImpuesto()));
+            this.modeloDetalles = CONTROL.listarDetalle(idVenta);
             TblDVentas.setModel(modeloDetalles);
 
             this.calcularTotales();
