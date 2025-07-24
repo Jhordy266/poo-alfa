@@ -18,21 +18,24 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public FrmPrincipal() {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
-        
         desactivarMenus();
-        
-        FrmLogin acc = new FrmLogin(this);
-        Principal.add(acc);
 
-        // calcular el centro el denteo de la pantall
-        int x = (Principal.getWidth() - acc.getWidth()) / 2;
-        int y = (Principal.getHeight() - acc.getHeight()) / 2;
+        java.awt.EventQueue.invokeLater(() -> {
+            FrmLogin acc = new FrmLogin(this);
+            Principal.add(acc);
 
-        acc.setLocation(x, y);
-        acc.setVisible(true);
-        
+            // Forzar tamaño del internal frame antes de centrarlo
+            acc.pack();
+
+            int x = (Principal.getWidth() - acc.getWidth()) / 2;
+            int y = (Principal.getHeight() - acc.getHeight()) / 2;
+            acc.setLocation(x, y);
+
+            acc.setVisible(true);
+        });
+
     }
-    
+
     //metodo para desactivar lo menus
     public void desactivarMenus() {
         jMenu1.setEnabled(false);
@@ -40,7 +43,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         Compra.setEnabled(false);
         Cerrar.setEnabled(false);
     }
-    
+
     //metodo paraactivar los menus, se llamado desde el formulario de Acceso
     public void activarMenus() {
         jMenu1.setEnabled(true);
@@ -48,8 +51,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         Compra.setEnabled(true);
         Cerrar.setEnabled(true);
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

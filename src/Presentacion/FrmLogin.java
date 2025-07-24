@@ -20,11 +20,11 @@ public class FrmLogin extends javax.swing.JInternalFrame {
     //se modifica el constructor "public FrmAcceso(FrmPrincipal principal)"
     public FrmLogin(FrmPrincipal principal) {
         this.principal = principal;
+
         initComponents();
-        LblOcultar.setVisible(false);
 
     }
-    
+
     //Metodo para validar el acceso
     private void validarLogin() {
         String usuario = TxtUsuario.getText();
@@ -35,7 +35,7 @@ public class FrmLogin extends javax.swing.JInternalFrame {
 
         if (existe) {
             JOptionPane.showMessageDialog(this,
-                        "Acceso correcto.");
+                    "Acceso correcto.");
             principal.activarMenus();
             this.dispose();  // cierra el FrmAcceso
         } else {
@@ -75,8 +75,7 @@ public class FrmLogin extends javax.swing.JInternalFrame {
         BtnSalir = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         IconoFerreteria = new javax.swing.JLabel();
-        LblVer = new javax.swing.JLabel();
-        LblOcultar = new javax.swing.JLabel();
+        LblVerOcultar = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
 
@@ -100,19 +99,25 @@ public class FrmLogin extends javax.swing.JInternalFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("INICIAR SESIÓN");
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("USUARIO");
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("CONTRASEÑA");
 
-        TxtContrasena.setEchoChar('*');
+        TxtUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtUsuarioActionPerformed(evt);
+            }
+        });
 
-        BtnIngresar.setBackground(new java.awt.Color(255, 255, 255));
-        BtnIngresar.setForeground(new java.awt.Color(0, 0, 0));
+        TxtContrasena.setEchoChar('*');
+        TxtContrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtContrasenaActionPerformed(evt);
+            }
+        });
+
         BtnIngresar.setText("Ingresar");
         BtnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,8 +125,6 @@ public class FrmLogin extends javax.swing.JInternalFrame {
             }
         });
 
-        BtnSalir.setBackground(new java.awt.Color(255, 255, 255));
-        BtnSalir.setForeground(new java.awt.Color(0, 0, 0));
         BtnSalir.setText("Salir");
         BtnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,17 +136,10 @@ public class FrmLogin extends javax.swing.JInternalFrame {
 
         IconoFerreteria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Presentacion/imagenes/16326795.png"))); // NOI18N
 
-        LblVer.setText("Ver");
-        LblVer.addMouseListener(new java.awt.event.MouseAdapter() {
+        LblVerOcultar.setText("Ver");
+        LblVerOcultar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                LblVerMouseClicked(evt);
-            }
-        });
-
-        LblOcultar.setText("Ocultar");
-        LblOcultar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                LblOcultarMouseClicked(evt);
+                LblVerOcultarMouseClicked(evt);
             }
         });
 
@@ -174,11 +170,8 @@ public class FrmLogin extends javax.swing.JInternalFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(LblVer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(LblOcultar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(247, Short.MAX_VALUE))
+                    .addComponent(LblVerOcultar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,24 +186,25 @@ public class FrmLogin extends javax.swing.JInternalFrame {
                         .addComponent(TxtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2))
                     .addComponent(jLabel5))
-                .addGap(28, 28, 28)
+                .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(LblVer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LblOcultar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(102, 102, 102)
+                    .addComponent(LblVerOcultar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(103, 103, 103)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnIngresar)
                     .addComponent(BtnSalir))
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,39 +224,51 @@ public class FrmLogin extends javax.swing.JInternalFrame {
 
     private void LblVer1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblVer1MouseClicked
 
-        LblVer.setVisible(false);
-        LblOcultar.setVisible(true);
-        TxtContrasena.setEchoChar((char) 0);
     }//GEN-LAST:event_LblVer1MouseClicked
 
     private void LblOcultar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblOcultar1MouseClicked
-        TxtContrasena.setEchoChar('*');
-        LblVer.setVisible(true);
-        LblOcultar.setVisible(false);
+
     }//GEN-LAST:event_LblOcultar1MouseClicked
 
-    private void LblVerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblVerMouseClicked
+    private void LblVerOcultarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblVerOcultarMouseClicked
+        if (LblVerOcultar.getText().equals("Ver")) {
+            TxtContrasena.setEchoChar((char) 0); // Mostrar contraseña
+            LblVerOcultar.setText("Ocultar");
+        } else {
+            TxtContrasena.setEchoChar('*'); // Ocultar contraseña
+            LblVerOcultar.setText("Ver");
+        }
+    }//GEN-LAST:event_LblVerOcultarMouseClicked
 
-        LblVer.setVisible(false);
-        LblOcultar.setVisible(true);
-        TxtContrasena.setEchoChar((char) 0);
-    }//GEN-LAST:event_LblVerMouseClicked
+    private void TxtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtUsuarioActionPerformed
+        // TODO add your handling code here:
+        if (!TxtUsuario.getText().trim().isEmpty()) {
+            TxtContrasena.requestFocusInWindow();
+        }
 
-    private void LblOcultarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblOcultarMouseClicked
-        TxtContrasena.setEchoChar('*');
-        LblVer.setVisible(true);
-        LblOcultar.setVisible(false);
-    }//GEN-LAST:event_LblOcultarMouseClicked
+    }//GEN-LAST:event_TxtUsuarioActionPerformed
+
+    private void TxtContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtContrasenaActionPerformed
+        // TODO add your handling code here:
+        String usuario = TxtUsuario.getText().trim();
+        String contrasena = TxtContrasena.getText().trim();
+
+        if (!usuario.isEmpty() && !contrasena.isEmpty()) {
+            BtnIngresar.doClick();
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe ingresar usuario y contraseña");
+        }
+
+    }//GEN-LAST:event_TxtContrasenaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnIngresar;
     private javax.swing.JButton BtnSalir;
     private javax.swing.JLabel IconoFerreteria;
-    private javax.swing.JLabel LblOcultar;
     private javax.swing.JLabel LblOcultar1;
-    private javax.swing.JLabel LblVer;
     private javax.swing.JLabel LblVer1;
+    private javax.swing.JLabel LblVerOcultar;
     private javax.swing.JPasswordField TxtContrasena;
     private javax.swing.JTextField TxtUsuario;
     private javax.swing.JLabel jLabel1;
