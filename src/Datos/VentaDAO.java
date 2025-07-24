@@ -42,11 +42,22 @@ public class VentaDAO implements IVenta<Venta, DetalleVenta> {
     public List<Venta> listarVentas(String texto) {
         List<Venta> registros = new ArrayList();
         try {
-            ps = CNX.conectar().prepareStatement("SELECT v.Id_Venta AS id, v.Id_Cliente AS persona_id, COALESCE(cn.NOMBRE, cj.RAZON_SOCIAL) AS persona_nombre, v.Tipocomprobante AS tipo_comprobante, v.SERIE AS serie_comprobante, v.NUMERO AS num_comprobante, v.FECHA AS fecha, v.IMPUESTO AS impuesto, v.MONTO_TOTAL AS total, CASE WHEN v.ESTADO = 1 THEN 'Activo' WHEN v.ESTADO = 0 THEN 'Anulado' ELSE 'Desconocido' END AS estado FROM VENTA v INNER JOIN CLIENTE c ON v.Id_Cliente = c.Id_Cliente LEFT JOIN CLIENTE_NATURAL cn ON c.Id_CNatural = cn.Id_CNatural LEFT JOIN CLIENTE_JURIDICO cj ON c.Id_CJuridico = cj.Id_CJuridico WHERE v.NUMERO LIKE ? ORDER BY v.Id_Venta ASC");
+            ps = CNX.conectar().prepareStatement("SELECT v.Id_Venta AS id, v.Id_Cliente AS persona_id, v.Id_Empleado AS empleado_id, COALESCE(cn.NOMBRE, cj.RAZON_SOCIAL) AS persona_nombre, v.Tipocomprobante AS tipo_comprobante, v.SERIE AS serie_comprobante, v.NUMERO AS num_comprobante, v.FECHA AS fecha, v.IMPUESTO AS impuesto, v.MONTO_TOTAL AS total, CASE WHEN v.ESTADO = 1 THEN 'Activo' WHEN v.ESTADO = 0 THEN 'Anulado' ELSE 'Desconocido' END AS estado FROM VENTA v INNER JOIN CLIENTE c ON v.Id_Cliente = c.Id_Cliente LEFT JOIN CLIENTE_NATURAL cn ON c.Id_CNatural = cn.Id_CNatural LEFT JOIN CLIENTE_JURIDICO cj ON c.Id_CJuridico = cj.Id_CJuridico WHERE v.NUMERO LIKE ? ORDER BY v.Id_Venta ASC");
             ps.setString(1, "%" + texto + "%");
             rs = ps.executeQuery();
             while (rs.next()) {
-                registros.add(new Venta(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7), rs.getDouble(8), rs.getDouble(9), rs.getString(10)));
+                registros.add(new Venta(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getDate(8),
+                        rs.getDouble(9),
+                        rs.getDouble(10),
+                        rs.getString(11)));
             }
             ps.close();
             rs.close();
@@ -114,16 +125,17 @@ public class VentaDAO implements IVenta<Venta, DetalleVenta> {
         try {
             conn = CNX.conectar();
             conn.setAutoCommit(false);
-            String sqlInsertVenta = "INSERT INTO venta (Id_Cliente,fecha,Tipocomprobante,serie,numero,impuesto,MONTO_TOTAL,estado) VALUES (?,now(),?,?,?,?,?,?)";
+            String sqlInsertVenta = "INSERT INTO venta (Id_Cliente,Id_Empleado,fecha,Tipocomprobante,serie,numero,impuesto,MONTO_TOTAL,estado) VALUES (?,?,now(),?,?,?,?,?,?)";
 
             ps = conn.prepareStatement(sqlInsertVenta, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, venta.getPersonaId());
-            ps.setString(2, venta.getTipoComprobante());
-            ps.setString(3, venta.getSerieComprobante());
-            ps.setString(4, venta.getNumComprobante());
-            ps.setDouble(5, venta.getImpuesto());
-            ps.setDouble(6, venta.getTotal());
-            ps.setInt(7, 1);
+            ps.setInt(2, venta.getEmpleadoId());
+            ps.setString(3, venta.getTipoComprobante());
+            ps.setString(4, venta.getSerieComprobante());
+            ps.setString(5, venta.getNumComprobante());
+            ps.setDouble(6, venta.getImpuesto());
+            ps.setDouble(7, venta.getTotal());
+            ps.setInt(8, 1);
 
             int filasAfectadas = ps.executeUpdate();
             rs = ps.getGeneratedKeys();
