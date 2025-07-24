@@ -145,14 +145,16 @@ public class FrmEmpleadosVenta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        /*if (TblEmpleados.getSelectedRowCount() == 1) {
+        if (TblEmpleados.getSelectedRowCount() == 1) {
             String idempleado = String.valueOf(TblEmpleados.getValueAt(TblEmpleados.getSelectedRow(), 0));
+            String nombreEmpleado = String.valueOf(TblEmpleados.getValueAt(TblEmpleados.getSelectedRow(), 1));
 
-            this.vista.setIdEmpleado(idempleado);
-
+            this.vista.TxtIdEmpleado.setText(idempleado);
+            this.vista.TxtNombreEmpleado.setText(nombreEmpleado);
             this.setVisible(false);
         } else {
-            */
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un empleado");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

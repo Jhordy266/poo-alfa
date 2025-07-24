@@ -94,12 +94,13 @@ public class VentaNegocio {
         return this.DATOS.ultimoNumero(tipoComprobante, serieComprobante);
     }
 
-    public String insertarVenta(int personaId, String tipoComprobante, String serieComprobante, String numComprobante, double impuesto, double total, DefaultTableModel modeloDetalles) {
+    public String insertarVenta(int personaId, int empleadoId, String tipoComprobante, String serieComprobante, String numComprobante, double impuesto, double total, DefaultTableModel modeloDetalles) {
         if (DATOS.existeVenta(serieComprobante, numComprobante)) {
             return "El registro ya existe.";
         } else {
 
             obj.setPersonaId(personaId);
+            obj.setEmpleadoId(empleadoId);
             obj.setTipoComprobante(tipoComprobante);
             obj.setSerieComprobante(serieComprobante);
             obj.setNumComprobante(numComprobante);
