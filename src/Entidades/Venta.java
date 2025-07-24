@@ -17,6 +17,7 @@ public class Venta {
     private int personaId;
     private int empleadoId;
     private String empleadoNombre;
+
     private String personaNombre;/*Cliente*/
     private String tipoComprobante;/*Tipo de comprobante*/
     private String serieComprobante;
@@ -85,6 +86,7 @@ public class Venta {
         this.total = total;
         this.estado = estado;
     }
+
 
     public Venta(int id, int personaId, int empleadoId, String personaNombre, String empleadoNombre, String tipoComprobante, String serieComprobante, String numComprobante, Date fecha, double impuesto, double total, String estado) {
         this(id, personaId, empleadoId, personaNombre, tipoComprobante, serieComprobante, numComprobante, fecha, impuesto, total, estado);
