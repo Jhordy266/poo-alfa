@@ -16,6 +16,8 @@ public interface IVenta<T, D> {
 
     public List<D> listarDetallesVenta(int idVenta);
 
+    public T obtenerVenta(int idVenta);
+
     public boolean insertarVenta(T venta);
 
     public boolean anularVenta(int idVenta);
