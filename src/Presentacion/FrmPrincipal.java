@@ -240,7 +240,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_MniArticulosActionPerformed
 
     private void MniCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MniCompraActionPerformed
-        FrmCompras frm = new FrmCompras();
+        FrmCompra frm = new FrmCompra();
         Principal.add(frm);
         frm.setVisible(true);
     }//GEN-LAST:event_MniCompraActionPerformed
