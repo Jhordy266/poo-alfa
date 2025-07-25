@@ -82,8 +82,10 @@ public class FrmVenta extends javax.swing.JInternalFrame {
         TxtTImpuesto.setText("0.00");
         this.crearDetalles();
         BtnGuardar.setVisible(true);
-        
+
         CbxTComprobante.setSelectedIndex(-1);
+        TxtIdEmpleado.setText("");
+        TxtNombreEmpleado.setText("");
     }
 
     private void crearDetalles() {
@@ -175,7 +177,7 @@ public class FrmVenta extends javax.swing.JInternalFrame {
                 Object valorCelda = modeloDetalles.getValueAt(i, 6);
                 if (valorCelda != null) {
                     try {
-                        String valor = valorCelda.toString().trim().replace(".", "").replace(",", ".");
+                        String valor = valorCelda.toString().trim().replace(",", ".");
                         double subtotalLinea = Double.parseDouble(valor);
                         total += subtotalLinea;
                     } catch (Exception e) {
@@ -250,6 +252,10 @@ public class FrmVenta extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         TxtNProducto = new javax.swing.JTextField();
         BtnVProductos = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        TxtIdEmpleado = new javax.swing.JTextField();
+        TxtNombreEmpleado = new javax.swing.JTextField();
+        BtnVEmpleados = new javax.swing.JButton();
         BtnVClientes = new javax.swing.JButton();
         BtnQuitar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -399,6 +405,16 @@ public class FrmVenta extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("Empleado");
+
+        BtnVEmpleados.setText("...");
+        BtnVEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnVEmpleadosActionPerformed(evt);
+            }
+        });
+
         BtnVClientes.setText("...");
         BtnVClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -471,6 +487,14 @@ public class FrmVenta extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(TxtNombreC, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
+                                .addComponent(TxtIdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(TxtNombreEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BtnVEmpleados))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(37, 37, 37)
                                 .addComponent(CbxTComprobante, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -531,6 +555,12 @@ public class FrmVenta extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(TxtImpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnVClientes))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(TxtIdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtNombreEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnVEmpleados))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -601,28 +631,26 @@ public class FrmVenta extends javax.swing.JInternalFrame {
 
     private void BtnVventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVventaActionPerformed
         if (TblVentas.getSelectedRowCount() == 1) {
-            String id = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 0));
-            String idCliente = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 1));
-            String nombreCliente = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 2));
-            String tipoComprobante = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 3));
-            String serie = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 4));
-            String numero = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 5));
-            String impuesto = String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 7));
+            int idVenta = Integer.parseInt(String.valueOf(TblVentas.getValueAt(TblVentas.getSelectedRow(), 0)));
+            Venta venta = CONTROL.obtenerVenta(idVenta);
 
-            TxtId.setText(idCliente);
-            TxtNombreC.setText(nombreCliente);
+            TxtId.setText(Integer.toString(venta.getPersonaId()));
+            TxtNombreC.setText(venta.getPersonaNombre());
+            TxtIdEmpleado.setText(Integer.toString(venta.getEmpleadoId()));
+            TxtNombreEmpleado.setText(venta.getEmpleadoNombre());
+
             // Selecciona el tipo de comprobante sin importar el uso de mayúsculas
             for (int i = 0; i < CbxTComprobante.getItemCount(); i++) {
                 String item = CbxTComprobante.getItemAt(i);
-                if (item.equalsIgnoreCase(tipoComprobante)) {
+                if (item.equalsIgnoreCase(venta.getTipoComprobante())) {
                     CbxTComprobante.setSelectedIndex(i);
                     break;
                 }
             }
-            TxtScomprobante.setText(serie);
-            TxtNComprobante.setText(numero);
-            TxtImpuesto.setText(impuesto);
-            this.modeloDetalles = CONTROL.listarDetalle(Integer.parseInt(id));
+            TxtScomprobante.setText(venta.getSerieComprobante());
+            TxtNComprobante.setText(venta.getNumComprobante());
+            TxtImpuesto.setText(Double.toString(venta.getImpuesto()));
+            this.modeloDetalles = CONTROL.listarDetalle(idVenta);
             TblDVentas.setModel(modeloDetalles);
 
             this.calcularTotales();
@@ -683,7 +711,15 @@ public class FrmVenta extends javax.swing.JInternalFrame {
         int correlativo = Integer.parseInt(TxtNComprobante.getText().trim());
         String numComprobante = String.format("%05d", correlativo);
         TxtNComprobante.setText(numComprobante);
-        resp = this.CONTROL.insertarVenta(Integer.parseInt(TxtId.getText()), (String) CbxTComprobante.getSelectedItem(), TxtScomprobante.getText(), numComprobante, Double.parseDouble(TxtImpuesto.getText().replace(",", ".")), Double.parseDouble(TxtTotal.getText().replace(",", ".")), modeloDetalles);
+        resp = this.CONTROL.insertarVenta(
+                Integer.parseInt(TxtId.getText()),
+                Integer.parseInt(TxtIdEmpleado.getText()),
+                (String) CbxTComprobante.getSelectedItem(),
+                TxtScomprobante.getText(),
+                numComprobante,
+                Double.parseDouble(TxtImpuesto.getText().replace(",", ".")),
+                Double.parseDouble(TxtTotal.getText().replace(",", ".")),
+                modeloDetalles);
         if (resp.equals("OK")) {
             JOptionPane.showMessageDialog(null, "Registrado correctamente");
             this.limpiar();
@@ -727,6 +763,13 @@ public class FrmVenta extends javax.swing.JInternalFrame {
         frm.toFront();
     }//GEN-LAST:event_BtnVProductosActionPerformed
 
+    private void BtnVEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVEmpleadosActionPerformed
+        FrmEmpleadosVenta frm = new FrmEmpleadosVenta(this);
+        this.getDesktopPane().add(frm);
+        frm.setVisible(true);
+        frm.toFront();
+    }//GEN-LAST:event_BtnVEmpleadosActionPerformed
+
     private void BtnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnQuitarActionPerformed
         if (TblDVentas.getSelectedRowCount() == 1) {
             this.modeloDetalles.removeRow(TblDVentas.getSelectedRow());
@@ -750,6 +793,7 @@ public class FrmVenta extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnQuitar;
     private javax.swing.JButton BtnVClientes;
     private javax.swing.JButton BtnVProductos;
+    private javax.swing.JButton BtnVEmpleados;
     private javax.swing.JButton BtnVventa;
     private javax.swing.JComboBox<String> CbxTComprobante;
     private javax.swing.JTabbedPane TabVentas;
@@ -757,10 +801,12 @@ public class FrmVenta extends javax.swing.JInternalFrame {
     private javax.swing.JTable TblVentas;
     private javax.swing.JTextField TxtBuscar;
     public javax.swing.JTextField TxtId;
+    public javax.swing.JTextField TxtIdEmpleado;
     private javax.swing.JTextField TxtImpuesto;
     private javax.swing.JTextField TxtNComprobante;
     private javax.swing.JTextField TxtNProducto;
     public javax.swing.JTextField TxtNombreC;
+    public javax.swing.JTextField TxtNombreEmpleado;
     private javax.swing.JTextField TxtSTotal;
     private javax.swing.JTextField TxtScomprobante;
     private javax.swing.JTextField TxtTImpuesto;
@@ -775,6 +821,7 @@ public class FrmVenta extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

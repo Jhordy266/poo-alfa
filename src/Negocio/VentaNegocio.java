@@ -86,6 +86,10 @@ public class VentaNegocio {
         return this.dtm;
     }
 
+    public Venta obtenerVenta(int id) {
+        return this.DATOS.obtenerVenta(id);
+    }
+
     public String ultimoSerie(String tipoComprobante) {
         return this.DATOS.ultimoSerie(tipoComprobante);
     }
@@ -94,12 +98,13 @@ public class VentaNegocio {
         return this.DATOS.ultimoNumero(tipoComprobante, serieComprobante);
     }
 
-    public String insertarVenta(int personaId, String tipoComprobante, String serieComprobante, String numComprobante, double impuesto, double total, DefaultTableModel modeloDetalles) {
+    public String insertarVenta(int personaId, int empleadoId, String tipoComprobante, String serieComprobante, String numComprobante, double impuesto, double total, DefaultTableModel modeloDetalles) {
         if (DATOS.existeVenta(serieComprobante, numComprobante)) {
             return "El registro ya existe.";
         } else {
 
             obj.setPersonaId(personaId);
+            obj.setEmpleadoId(empleadoId);
             obj.setTipoComprobante(tipoComprobante);
             obj.setSerieComprobante(serieComprobante);
             obj.setNumComprobante(numComprobante);
