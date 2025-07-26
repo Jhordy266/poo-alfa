@@ -9,6 +9,7 @@ import Entidades.Proveedor;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
 /**
  *
  * @author leona
@@ -59,11 +60,20 @@ public class ProveedorNegocio {
 
     public String eliminar(int id) {
         Proveedor proveedor = new Proveedor();
-        proveedor.setId_Proveedor(id);  
+        proveedor.setId_Proveedor(id);
         if (DATOS.eliminar(proveedor)) {
             return "Categoría eliminada con éxito";
         } else {
             return "Error al eliminar la categoría";
         }
+    }
+
+    public DefaultComboBoxModel<Proveedor> seleccionar() {
+        DefaultComboBoxModel<Proveedor> items = new DefaultComboBoxModel<>();
+        List<Proveedor> lista = DATOS.seleccionar();
+        for (Proveedor item : lista) {
+            items.addElement(new Proveedor(item.getId_Proveedor(), item.getNombre()));
+        }
+        return items;
     }
 }

@@ -118,4 +118,24 @@ public class ProveedorDAO implements IProveedor {
         }
         return registros;
     }
+
+    public List<Proveedor> seleccionar() {
+        List<Proveedor> registros = new ArrayList<>();
+        try {
+            ps = CNX.conectar().prepareStatement("SELECT Id_Proveedor, Nombre FROM Proveedor");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                registros.add(new Proveedor(rs.getInt(1), rs.getString(2)));
+            }
+            ps.close();
+            rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            ps = null;
+            rs = null;
+            CNX.desconectar();
+        }
+        return registros;
+    }
 }
