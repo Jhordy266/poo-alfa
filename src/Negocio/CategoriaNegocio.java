@@ -9,6 +9,7 @@ import Entidades.Categoria;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -65,13 +66,22 @@ public class CategoriaNegocio {
 
     public String eliminar(int id) {
         Categoria categoria = new Categoria();
-        categoria.setId_Categoria(id);  
+        categoria.setId_Categoria(id);
         if (DATOS.eliminar(categoria)) {
             return "Ok";
         } else {
             return "Error al eliminar la categoría";
         }
     }
-    
-    
+
+    public DefaultComboBoxModel<Categoria> seleccionar() {
+        DefaultComboBoxModel<Categoria> items = new DefaultComboBoxModel<>();
+        List<Categoria> lista = DATOS.seleccionar();
+        for (Categoria item : lista) {
+            items.addElement(new Categoria(item.getId_Categoria(), item.getNombre()));
+        }
+        return items;
+    }
+
+
 }

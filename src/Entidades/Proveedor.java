@@ -18,6 +18,11 @@ public class Proveedor {
     public Proveedor() {
     }
 
+    public Proveedor(int Id_Proveedor, String Nombre) {
+        this.Id_Proveedor = Id_Proveedor;
+        this.Nombre = Nombre;
+    }
+
     public Proveedor(int Id_Proveedor, String Nombre, String Contacto, String Telefono) {
         this.Id_Proveedor = Id_Proveedor;
         this.Nombre = Nombre;
@@ -56,6 +61,27 @@ public class Proveedor {
     public void setTelefono(String Telefono) {
         this.Telefono = Telefono;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return Nombre;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Proveedor other = (Proveedor) obj;
+        return Id_Proveedor == other.Id_Proveedor;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(Id_Proveedor);
+    }
+
 }

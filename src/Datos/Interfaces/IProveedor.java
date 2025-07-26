@@ -19,4 +19,6 @@ public interface IProveedor {
     public boolean eliminar(Proveedor proveedor);
 
     public boolean modificar(Proveedor proveedor);
+
+    public List<Proveedor> seleccionar();
 }

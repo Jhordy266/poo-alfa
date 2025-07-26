@@ -4,17 +4,33 @@
  */
 package Presentacion;
 
+import Negocio.CategoriaNegocio;
+import Negocio.ProveedorNegocio;
+import Negocio.MarcaNegocio;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author leona
  */
 public class FrmCompras extends javax.swing.JInternalFrame {
 
+    private final CategoriaNegocio CONTROL_CAT;
+    private final ProveedorNegocio CONTROL_PRO;
+    private final MarcaNegocio CONTROL_MAR;
+    private DefaultTableModel dtmDetalles;
+
     /**
      * Creates new form FrmCompras
      */
     public FrmCompras() {
         initComponents();
+        CONTROL_CAT = new CategoriaNegocio();
+        CONTROL_PRO = new ProveedorNegocio();
+        CONTROL_MAR = new MarcaNegocio();
+        cargarCombos();
+        crearModeloDetalles();
     }
 
     /**
@@ -40,9 +56,9 @@ public class FrmCompras extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        CbxCategoria = new javax.swing.JComboBox<>();
+        CbxCategoria = new javax.swing.JComboBox();
         TxtProducto = new javax.swing.JTextField();
-        CbxMarca = new javax.swing.JComboBox<>();
+        CbxMarca = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
         TxtCantidad = new javax.swing.JTextField();
         Txtimpuesto = new javax.swing.JTextField();
@@ -54,7 +70,7 @@ public class FrmCompras extends javax.swing.JInternalFrame {
         BtnCerrar = new javax.swing.JButton();
         BtnGuardar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        CbxProveedor = new javax.swing.JComboBox<>();
+        CbxProveedor = new javax.swing.JComboBox();
 
         setClosable(true);
         setIconifiable(true);
@@ -271,15 +287,27 @@ public class FrmCompras extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtProductoActionPerformed
 
+    private void cargarCombos() {
+        CbxCategoria.setModel(CONTROL_CAT.seleccionar());
+        CbxProveedor.setModel(CONTROL_PRO.seleccionar());
+        CbxMarca.setModel(CONTROL_MAR.seleccionarmar());
+    }
+
+    private void crearModeloDetalles() {
+        dtmDetalles = new DefaultTableModel();
+        dtmDetalles.setColumnIdentifiers(new String[]{"ID_PRODUCTO", "NOMBRE", "CANTIDAD", "CATEGORIA", "PROVEEDOR", "MARCA"});
+        TblCompras.setModel(dtmDetalles);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBuscar;
     private javax.swing.JButton BtnCerrar;
     private javax.swing.JButton BtnEliminar;
     private javax.swing.JButton BtnGuardar;
-    private javax.swing.JComboBox<String> CbxCategoria;
-    private javax.swing.JComboBox<String> CbxMarca;
-    private javax.swing.JComboBox<String> CbxProveedor;
+    private javax.swing.JComboBox CbxCategoria;
+    private javax.swing.JComboBox CbxMarca;
+    private javax.swing.JComboBox CbxProveedor;
     private javax.swing.JTabbedPane TabCompras;
     private javax.swing.JTable TblCompras;
     private javax.swing.JTextField TxtBusqueda;

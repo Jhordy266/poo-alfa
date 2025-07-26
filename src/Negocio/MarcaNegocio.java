@@ -9,6 +9,7 @@ import Entidades.Marca;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
 /**
  *
  * @author leona
@@ -58,11 +59,20 @@ public class MarcaNegocio {
 
     public String eliminar(int id) {
         Marca marca = new Marca();
-        marca.setId_Marca(id);  
+        marca.setId_Marca(id);
         if (DATOS.eliminar(marca)) {
             return "Marca eliminada con éxito";
         } else {
             return "Error al eliminar la marca";
         }
+    }
+
+    public DefaultComboBoxModel<Marca> seleccionarmar() {
+        DefaultComboBoxModel<Marca> items = new DefaultComboBoxModel<>();
+        List<Marca> lista = DATOS.seleccionarmar();
+        for (Marca item : lista) {
+            items.addElement(new Marca(item.getId_Marca(), item.getNombre()));
+        }
+        return items;
     }
 }
